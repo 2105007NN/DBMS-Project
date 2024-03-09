@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">SWIFT CART</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/dashboard">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/product_categories">Products</a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <a href="/customer/cart" class="cart-icon">
+                    <img src="/images/shopping-cart.png" alt="Cart" width="30" height="30">
+                </a>
+
+                <form class="form-inline my-2 my-lg-0" action="#" method="post">
+                    <input type="text" id="search-box" class="form-control mr-sm-2" type="search" placeholder="Search"
+                        aria-label="Search" onkeyup="sendData(this)">
+                    <button id="search-btn" class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+                </form>
+    </nav>
+    <section id="searchResults" class="searchRes">
+        <hr>
+    </section>
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function () {
+            const searchValue = document.getElementById('search-box').value;
+            window.location.href = 'http://localhost:3000/find/searchResultsPage?query=' + encodeURIComponent(searchValue);
+        });
+
+        // Optional: Remove the sendData function if not used elsewhere.
+        function sendData(e) {
+            const searchResults = document.getElementById('searchResults');
+
+            if (e.value.trim() === '') {
+                searchResults.style.display = 'none'; // Hide the search results section
+                return;
+            } else {
+                searchResults.style.display = 'block'; // Show the search results section
+            }
+
+            //to show no result when the search box is empty
+            let match = e.value.match(/^[a-zA-Z]*/);
+            let match2 = e.value.match(/\s*/);
+            if (match2[0] === e.value) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            fetch('/find/searchProducts', {
+                method: "POST",
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({ payload: e.value })
+            }).then(res => res.json()).then(data => {
+                let payload = data.payload;
+                let user = data.user;
+                console.log('CLIENT SIDE E ASI BHAI ', data);
+                searchResults.innerHTML = '';
+                if (payload.length < 1) {
+                    searchResults.innerHTML = '<p>SORRY, NOTHING FOUND :( </p>';
+                    return;
+                }
+                for (let i = 0; i < payload.length; i++) {
+                    if (i > 0)
+                        searchResults.innerHTML += '<hr>';
+                    if (user !== undefined) {
+                        searchResults.innerHTML +=
+                            `<button onclick="yourFunction(${JSON.stringify(user.id)}, ${JSON.stringify(payload[i][0])})">
+                        <a href="/product_categories/category/${payload[i][7]}/subcategory/${payload[i][4]}/product/${payload[i][0]}">
+                        ${payload[i][5]}
+                         </a>
+                        </button>`;
+                    }
+                    else {
+                        searchResults.innerHTML +=
+                            `<button>
+                        <a href="http://localhost:3000/product_categories/category/${payload[i][7]}/subcategory/${payload[i][4]}/product/${payload[i][0]}">
+                        ${payload[i][5]}
+                         </a>
+                        </button>`;
+                    }
+
+
+                }
+            });
+        }
+        function yourFunction(userID, productID) {
+            console.log("Button clicked, need to insert into search table\n and user info -> ", userID);
+            console.log("product ID is : ", productID);
+            const postData = {
+                userID: userID,
+                productID: productID
+            };
+            const url = 'http://localhost:3000/find/insertIntoDB';
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            };
+
+            fetch(url, options).then(res => res.json()).then(data => {
+                console.log('POST request was successful');
+                console.log(data);
+            })
+        }
+
+
+
+    </script>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<%- include('../../partials/head.ejs') %>
+
+
+    <div class="dropdown">
+        <% /* Read some categories in loop and show as a link */ %>
+            <button>All Categories</button>
+            <div class="content">
+                <% for(let i=0; i < categories.length; i++) { %>
+
+                    <a href="product_categories/category/<%= categories[i][0] %>/subcategories">
+                        <%= categories[i][1] %>
+                    </a>
+                    <% } %>
+
+            </div>
+    </div>
+
+    </div>
+    <div class = "container4">
+            
+        <% if(user===undefined) { %>
+            
+            <% } else { %>
+                <h4 class="card-title text-center mb-4">Product Recommendations</h4>
+                <div class="products-slider">
+                    <% for(let i=0; i < recommendations.length; i++) { %>
+                        <a href="/product_categories/category/<%= recommendations[i][7] %>/subcategory/<%= recommendations[i][4] %>/product/<%= recommendations[i][0] %>">
+                            <div class="products">
+                                <div class="product">
+                                    <img src="<%= recommendations[i][6] || '/images/pp1.jpg' %>">
+                                    <p>
+                                        <%= recommendations[i][5] %>
+                                    </p>
+                                    <p>PRICE : <%= recommendations[i][2] %>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </a>
+                        <% } %>
+                </div>
+            <% } %>
+
+    <br><br>
+    <h4 class="card-title text-center mb-4">Trending Products!!</h4>
+    <div class="products-slider">
+        <% for(let i=0; i < hotProducts.length;i++) { %>
+            <a href="/product_categories/category/<%= hotProducts[i][7] %>/subcategory/<%= hotProducts[i][4] %>/product/<%= hotProducts[i][0] %>">
+                <div class="products">
+                    <div class="product">
+                        <img src="<%= hotProducts[i][6] || '/images/pp1.jpg' %>">
+                        <p>
+                            <%= hotProducts[i][5] %>
+                        </p>
+                        <p>PRICE : <%= hotProducts[i][2] %>
+                        </p>
+
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+</body>
+
+</html>

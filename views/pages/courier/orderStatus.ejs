@@ -1,0 +1,47 @@
+<!-- pages/courier/orderStatus.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1><%= title %></h1>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <% for (let i = 0; i < orders.length; i++) { %>
+            <tr>
+                <td><%= orders[i][3] %></td>
+                <td><%= orders[i][2] %></td>
+                <td>
+                    <% if (orders[i][2] === 'Processing') { %>
+                        <form action="/courier/order_status" method="post">
+                            <input type="hidden" name="orderId" value="<%= orders[i][3] %>">
+                            <input type="submit" name="action" value="Shipped">
+                            <input type="submit" name="action" value="Out for Delivery">
+                            <input type="submit" name="action" value="Delivered">
+                        </form>
+                    <% } else if (orders[i][2] === 'Shipped') { %>
+                        <form action="/courier/order_status" method="post">
+                            <input type="hidden" name="orderId" value="<%= orders[i][3] %>">
+                            <input type="submit" name="action" value="Out for Delivery">
+                            <input type="submit" name="action" value="Delivered">
+                        </form>
+                    <% } else if (orders[i][2] === 'Out for Delivery') { %>
+                        <form action="/courier/order_status" method="post">
+                            <input type="hidden" name="orderId" value="<%= orders[i][3] %>">
+                            <input type="submit" name="action" value="Delivered">
+                        </form>
+                    <% } %>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>

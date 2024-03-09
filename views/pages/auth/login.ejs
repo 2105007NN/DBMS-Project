@@ -1,0 +1,45 @@
+<%- include('../../partials/head.ejs') %>
+
+    <div class="container my-container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg bg-info">
+                    <div class="card-body ">
+                        <h4 class="card-title text-center mb-4">Log In To Your Account </h4>
+                        <form action="/customer/auth/login" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control"
+                                            placeholder="Enter your Email" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" name="password" id="password" class="form-control"
+                                            placeholder="Enter your Password" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center mt-3">Don't have an account? <a href="/customer/auth/signup">Sign Up</a></p>
+                <p class="text-center mt-3"><a href="/admin/login">Admin</a> or <a href="/supplier/login">Supplier</a> ?</p>
+                
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+
+        </body>
+
+        </html>

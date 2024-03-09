@@ -1,0 +1,61 @@
+<%- include('../../partials/head.ejs') %>
+<style>
+    .container3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .message-box {
+        border: none; /* Remove border */
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9f9f9; /* Light gray */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .button {
+        padding: 5px 40px; 
+        border-radius: 5px;
+        cursor: pointer;
+        border: none; 
+    }
+
+    .button-no {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .button-yes {
+        background-color: #dc3545; 
+        color: white;
+    }
+</style>
+
+<body>
+    <div class="container3">
+        <div class="message-box">
+            <h1>Delete Account</h1>
+            <p>Are you sure you want to delete your account?</p>
+            <p>(You can Restore it if you login again in 3 days)</p>
+            <div class="button-group">
+                <form method="POST" action="/customer/dashboard/delete-account">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="button button-yes">Yes</button>
+                </form>
+                <form action="/customer/dashboard">
+                    <button type="submit" class="button button-no">No</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

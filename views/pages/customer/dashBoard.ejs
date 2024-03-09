@@ -1,0 +1,78 @@
+<%- include('../../partials/head.ejs') %>
+
+<script>
+    function scrollToOrderHistory() {
+        document.querySelector('#orderHistory').scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+</script>
+
+<div class="customContainer" style="background-color: #f8f9fa;">
+    <div class="card p-4" style="background-color: #ffffff;">
+        <h2 class="text-center mb-4" style="border-bottom: 2px solid #e3e3e3;"><b>Your Profile</b></h2><br>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="/images/customerProfilePicture.jpg" alt="Customer Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    
+                    <div class="col-md-12 border-bottom mb-3">
+                        <h4><b>First Name: </b>
+                            <%= customer[1] %>
+                        </h4>
+                    </div>
+                    <div class="col-md-12 border-bottom mb-3">
+                        <h4><b>Last Name: </b>
+                            <%= customer[2] %>
+                        </h4>
+                    </div>
+                    <div class="col-md-12 border-bottom mb-3">
+                        <h5><b>Email: </b>
+                            <%= customer[4] %>
+                        </h5>
+                    </div>
+                    <div class="col-md-12 border-bottom mb-3">
+                        <p><i>You will be notified with all your important information here!</i></p>
+                    </div>
+                    <div class="col-md-12 border-bottom mb-3">
+                        <h4><b>Contact: </b>
+                            <%= customer[3] %>
+                        </h4>
+                    </div>
+                    <div class="col-md-12 border-bottom mb-3">
+                        <h4><b>Default Address: </b></h4>
+                        <h5>
+                            <%= address[1] %>, <%= address[2] %>, <%= address[3] %>
+                        </h5>
+                        <p><i>Postal code: <%= address[4] %></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6 offset-md-3">
+                <!-- Dropdown for profile actions -->
+                <div class="dropdown" style="position: relative; display: inline-block;">
+                    <button class="btn btn-primary btn-block" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                        style="right: 0; left: auto;">
+                        <a class="dropdown-item" href="/customer/dashboard/edit-profile">Edit Profile</a>
+                        <a class="dropdown-item" href="/customer/dashboard/order-history" >Order
+                            History</a>
+                        <a class="dropdown-item" href="/find/history">Search History</a>
+                        <a class="dropdown-item" href="/customer/dashboard/delete-account">Delete Account</a>
+                        <a class="dropdown-item" href="/customer/auth/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('../../partials/footer.ejs') %>

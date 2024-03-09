@@ -1,0 +1,88 @@
+<%- include('../../partials/head.ejs') %>
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-4" style="width: 40%;">
+      <div class="card">
+        <div class="card-body">
+          <img src="<%= product[6] || '/images/pp1.jpg' %>" alt="default image" width="250" height="250" style="transition: transform 0.3s ease; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="width: 60%;"> 
+      <div class="card">
+        <div class="card-body" style="text-align: center;"> 
+          <h2 style="font-weight: bold; font-size: 24px; color: #333;"> <%= product[5] %> </h2> 
+          <p style="font-size: 16px; color: #666;"> <%= product[3] %> </p> 
+          <p style="font-size: 16px; color: #666;"> Category: <%= product[9] %> </p> 
+          <p style="font-size: 16px; color: #666;"> Price: $<%= product[2] %> </p> 
+          <p style="font-size: 16px; color: #666;"> Rating: <%= product[8].toFixed(2) %> </p> 
+          <p style="font-size: 16px; color: #666;"> Description: <%= product[3] %> </p> 
+          <% if(userId != 0) { %>
+          <form action="/product_categories/category/<%= product[9] %>/subcategory/<%= product[4] %>/product/<%= product[0] %>?userID=<%= userId %>"
+            method="post">
+            <label for="quantity" class="form-label"> Quantity </label>
+            <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Enter your desired quantity" required>
+            <button class="btn btn-primary mt-3"> Add to Cart </button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+   
+    <div class="col-md-6">
+      <div class="container p-4">
+        <br><h3 class="text-center">Reviews And Ratings</h3><br><br>
+        <div id="accordion">
+          <% for(let i=0; i<rating.length; i++) { %>
+          <div class="card">
+            <div class="card-header" id="heading<%= i %>">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>">
+                  <%= rating[i][4] %>
+                </button>
+              </h5>
+            </div>
+            <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#accordion">
+              <div class="card-body">
+                <p><b>Rating:</b> <%= rating[i][1] %></p>
+                <p><b>Comment:</p></b><i> <%= rating[i][2] %></i></p>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+   
+    <% if(userId){ %>
+      <div class="col-md-6">
+        <div class="container p-4 d-flex justify-content-center align-items-center">
+          <form action="/customer/product/rating/<%= product[0] %>" method="post">
+            <input type="hidden" name="referrer" value="<%=originalUrl %>">
+            <div class="form-group">
+              <label for="rating">Wanna Rate? </label>
+              <input type="number" class="form-control" id="rating" name="rating" placeholder="Enter your rating" min="0" max="5" step="0.1" required>
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment?</label>
+              <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+  </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+</body>
+</html>

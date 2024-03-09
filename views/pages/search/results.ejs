@@ -1,0 +1,213 @@
+<%- include('../../partials/head.ejs') %>
+
+  <!-- SORTING OPTIONS -->
+  <div class = "containterforfilter">
+  <div class="dropdown-container-filter">
+    <h5><b>Price Ranges</b></h5>
+    <select id="priceRanges" class="dropdown-options">
+      <option value="0">None</option>
+      <option value="1">0-50</option>
+      <option value="2">51-100</option>
+      <option value="3">101-200</option>
+      <option value="4">201-500</option>
+      <option value="5">501-1000</option>
+      <option value="6">1001-2000</option>
+      <option value="7"> > 2000</option>
+    </select>
+  </div>
+  <div class="dropdown-container-filter">
+    <h5><b>Product Categories</b></h5>
+    <select id="product_categories" class="dropdown-options">
+      <option value="0">None</option>
+      <option value="1">TECHNOLOGY</option>
+      <option value="2">BEAUTY</option>
+      <option value="3">FAMILY</option>
+      <option value="4">WOMENS</option>
+      <option value="5">MENS</option>
+    </select>
+  </div>
+  <div class="dropdown-container-filter">
+    <h5><b>Sort by Price</b></h5>
+    <select id="sortingPrice" class="dropdown-options">
+      <option value="0">None</option>
+      <option value="PriceASC">Low to High</option>
+      <option value="PriceDESC">High to Low</option>
+    </select>
+  </div>
+  <div class="dropdown-container-filter">
+    <h5><b>Sort by Rating/b></h5>
+    <select id="sortingRating" class="dropdown-options">
+      <option value="0">None</option>
+      <option value="RatingsDESC">RATING : High to Low</option>
+      <option value="RatingsASC"> RATING : Low to High</option>
+    </select>
+  </div>
+  <div class="dropdown-container-filter">
+    <h5><b>Sort by Name</b></h5>
+    <select id="sortingName" class="dropdown-options">
+      <option value="0">None</option>
+      <option value="AtoZ">ASC (A-Z)</option>
+      <option value="ZtoA">DESC (Z-A)</option>
+    </select>
+  </div>
+
+  <!-- Button to trigger filtering -->
+  <button id="filterButton" class="btn btn-secondary">Filter</button>
+</div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to handle filtering
+      function filterDropdowns() {
+        var dropdowns = document.querySelectorAll(".dropdown-options");
+        var selectedValues = [];
+
+        dropdowns.forEach(function (dropdown) {
+          selectedValues.push({
+            id: dropdown.id,
+            value: dropdown.value
+          });
+        });
+
+        // Send selected values as a POST request
+        fetch(window.location.href, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(selectedValues)
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Selected values sent successfully.');
+              return response.json();
+            } else {
+              console.error('Failed to send selected values.');
+            }
+          })
+          .then(data => {
+            console.log(data);
+            window.location.href = data.url;
+
+          })
+          .catch(error => {
+            console.error('Error sending selected values:', error);
+          });
+      }
+
+      // Add click event listener to the filter button
+      //     var filterButton = document.getElementById("filterButton");
+      //     filterButton.addEventListener("click", filterDropdowns);
+      // });
+      var filterButton = document.getElementById("filterButton");
+      filterButton.addEventListener("click", filterDropdowns);
+
+      // Parse the URL and set selected options in dropdowns
+      var urlParams = new URLSearchParams(window.location.search);
+      var dropdowns = document.querySelectorAll(".dropdown-options");
+
+      dropdowns.forEach(function (dropdown) {
+        var paramValue = urlParams.get(dropdown.id);
+        if (paramValue !== null) {
+          console.log('param Value is ' + paramValue + " for dropdown  " + dropdown.id);
+          if(dropdown.id == 'sortingPrice'){
+            paramValue = (paramValue == 'ASC' ? 'PriceASC' : 'PriceDESC');
+          }
+
+          if(dropdown.id == 'sortingName'){
+            paramValue = (paramValue == 'ASC' ? 'AtoZ' : 'ZtoA');
+          }
+
+          if(dropdown.id == 'sortingRating'){
+            paramValue = (paramValue == 'ASC' ? 'RatingsASC' : 'RatingsDESC');
+          }
+          dropdown.value = paramValue;
+        }
+      });
+    });
+  </script>
+
+  <!-- END OF SORTING OPTIONS -->
+
+
+  <!-- SHOWING SEARCH/FILTER RESULTS -->
+  <div class="container mt-3">
+    <div class="row">
+      <% for(let i=0;i<products.length;i++) { %>
+        <div class="col-md-4">
+          <div class="card text-black bg-light mb-3" style="width: 18rem;">
+
+            <img class="card-img-top" src="<%= products[i][6] || '/images/pp1.jpg' %>" alt="<%= products[i][5] %>"
+              style="width: 100%; height: 200px;">
+            <div class="card-body" style="height: 150px;"> <!-- Set a fixed height for the card body -->
+              <h5 class="card-title" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                <%= products[i][5] %>
+              </h5>
+              <p class="card-text">Rating: <%= products[i][7] %>
+              </p>
+
+              <div class="text-center"> <!-- Center the button -->
+                <!-- <a href="<%= products[i][4] %>/product/<%= products[i][0] %>" class="btn btn-primary">View Product</a> -->
+                <!-- <a href="http://localhost:3000/product_categories/category/<%= products[i][9] %>/subcategory/<%= products[i][4] %>/product/<%= products[i][0] %>" class="btn btn-primary">View Product</a> -->
+                <a
+                  href="http://localhost:3000/product_categories/category/<%= products[i][9] %>/subcategory/<%= products[i][4] %>/product/<%= products[i][0] %>">
+                  <button type="button" class="btn btn-primary" <% if (user !==undefined) { %>
+                    onclick="myFunction('<%= products[i][0] %>', '<%= user.id %>')"
+                        <% } %>
+                          >
+                          VIEW PRODUCT
+                  </button>
+                </a>
+
+                <script>
+                  function myFunction(productID, userID) {
+                    console.log('user ID is ' + userID);
+                    console.log("Button clicked! " + productID);
+                    const postData = {
+                      userID: userID,
+                      productID: productID
+                    };
+                    const url = 'http://localhost:3000/find/insertIntoDB';
+                    const options = {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(postData)
+                    };
+
+                    fetch(url, options).then(res => res.json()).then(data => {
+                      console.log('POST request was successful');
+                      console.log(data);
+                    })
+
+                  }
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% if ((i + 1) % 3===0) { %>
+    </div>
+    <div class="row">
+      <% } %>
+        <% } %>
+    </div>
+  </div>
+
+  <!-- <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <% if(parseInt(skip)>0){%>
+    <li class="page-item"><a class="page-link" href="<%= subcategoryId %>?limit=<%= limit %>&skip=<%= parseInt(skip) - parseInt(limit) %>">Previous</a></li>
+    <% }else{ %>
+    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+    <% }if(parseInt(skip) + parseInt(limit)<parseInt(maxSkip)){%>
+    <li class="page-item"><a class="page-link" href="<%= subcategoryId %>?limit=<%= limit %>&skip=<%= parseInt(skip) + parseInt(limit) %>">Next</a></li>
+      <% }else{ %>
+    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+    <% } %>
+  </ul>
+</nav> -->
+
+  </body>
+
+  </html>

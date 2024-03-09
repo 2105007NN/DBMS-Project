@@ -1,0 +1,26 @@
+<!-- approveSupplier.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Supplier Request</title>
+</head>
+<body>
+    <h1>Approve Supplier Request</h1>
+    <ul>
+        <% for (let i = 0; i < products.length; i++) { %>
+            <li>
+                <strong>Product Name:</strong> <%= products[i][5] %><br>
+                <strong>Description:</strong> <%= products[i][3] %><br>
+                <strong>Price:</strong> <%= products[i][2] %><br>
+                <form action="/admin/manage-suppliers/approve-supplier-request" method="post">
+                    <input type="hidden" name="productId" value="<%= products[i][0] %>">
+                    <button type="submit" name="decision" value="approve">Approve</button>
+                    <button type="submit" name="decision" value="disapprove">Disapprove</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
+</body>
+</html>

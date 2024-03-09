@@ -1,0 +1,90 @@
+<%- include('../../partials/head.ejs') %>
+
+<style>
+    .product-table td {
+        font-size: 18px; /* Adjust the font size as needed */
+        color: black; /* Set the font color to white */
+    }
+</style>
+
+<div class="container my-container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg bg-info">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">CART</h4>
+                    <% if (products.length > 0 && totalCost != -1) { %>
+                        <table class="table product-table"> 
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i = 0; i < products.length; i++) { %>
+                                    <% if(products[i][1] == 0) { %>
+                                        <% continue; %>
+                                    <% } %>
+                                    <tr>
+                                        <td> <%= products[i][0] %></td>
+                                        <td> <%= products[i][1] %></td>
+                                        <td> <%= products[i][2] %></td>
+                                        <td>
+                                            <form action="/customer/cart/delete/<%= products[i][3] %>?productID=<%=products[i][4]%>" method="post"> 
+                                                <input type="hidden" name="_method" value="DELETE"> 
+                                                <button type="submit" class="btn btn-danger">Delete</button> 
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }; %>
+                                <tr>
+                                    <td></td>
+                                    <td><strong>TOTAL: </strong></td>
+                                    <td><strong><%= totalCost %></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <form action="/customer/cart" method="post">
+                            <% if (coupons.length > 0) { %>
+                                <div class="coupon-container">
+                                    <h4>Coupons</h4>
+                                    <% for(let i = 0; i < coupons.length; i++) { %>
+                                        <label>
+                                            <input type="checkbox" id="coupon<%= i %>" name="coupons[]" value="<%= coupons[i][0] %>">
+                                            <%= coupons[i][1] %> - Discount: <%= coupons[i][3].toFixed(2) %>
+                                        </label><br>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                            <div class="payment-method-container">
+                                <h4>Payment Method</h4>
+                                <label>
+                                    <input type="radio" name="paymentMethod" value="bkash">
+                                    Bkash
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="paymentMethod" value="nagad">
+                                    Nagad
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="paymentMethod" value="rocket">
+                                    Rocket
+                                </label><br>
+                            </div>
+                            <button type="submit" id="checkoutButton" class="btn btn-primary btn-lg float-right">Checkout</button>
+                        </form>
+                    <% } else { %>
+                        <p> <strong>NO PRODUCTS IN THE CART</strong></p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+

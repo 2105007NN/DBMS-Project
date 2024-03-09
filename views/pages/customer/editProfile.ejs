@@ -1,0 +1,168 @@
+<%- include('../../partials/head.ejs') %>
+    <script>
+        function toggleInput(elementId) {
+            var checkbox = document.getElementById(elementId);
+            var input = document.getElementById("new" + elementId.substring(6));
+            if (checkbox.checked) {
+                input.disabled = false;
+            } else {
+                input.disabled = true;
+            }
+        }
+
+        function togglePasswordInputs() {
+            var checkbox = document.getElementById("changePassword");
+            var oldPasswordInput = document.getElementById("oldPassword");
+            var newPasswordInput = document.getElementById("newPassword");
+            var confirmPasswordInput = document.getElementById("confirmPassword");
+            if (checkbox.checked) {
+                oldPasswordInput.disabled = false;
+                newPasswordInput.disabled = false;
+                confirmPasswordInput.disabled = false;
+            } else {
+                oldPasswordInput.disabled = true;
+                newPasswordInput.disabled = true;
+                confirmPasswordInput.disabled = true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg bg-light">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">Edit Your Profile</h4>
+                        <form action="/customer/dashboard/edit-profile" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeFirstName">Change First Name:</label>
+                                        
+                                        <input type="checkbox" id="changeFirstName" name="changeFirstName" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newFirstName">New First Name:</label>
+                                        <input type="text" id="newFirstName" name="newFirstName" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeLastName">Change Last Name:</label>
+                                        
+                                        <input type="checkbox" id="changeLastName" name="changeLastName" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newLastName">New Last Name:</label>
+                                        <input type="text" id="newLastName" name="newLastName" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeContact">Change Contact:</label>
+                                        
+                                        <input type="checkbox" id="changeContact" name="changeContact" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newContact">New Contact:</label>
+                                        <input type="text" id="newContact" name="newContact" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeStreet">Change Street:</label>
+                                        
+                                        <input type="checkbox" id="changeStreet" name="changeStreet" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newStreet">New Street:</label>
+                                        <input type="text" id="newStreet" name="newStreet" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeCity">Change City:</label>
+                                        
+                                        <input type="checkbox" id="changeCity" name="changeCity" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newCity">New City:</label>
+                                        <input type="text" id="newCity" name="newCity" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changeCountry">Change Country:</label>
+                                        
+                                        <input type="checkbox" id="changeCountry" name="changeCountry" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newCountry">New Country:</label>
+                                        <input type="text" id="newCountry" name="newCountry" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changePostalCode">Change Postal Code:</label>
+                                        
+                                        <input type="checkbox" id="changePostalCode" name="changePostalCode" value="true"
+                                            onchange="toggleInput(this.id)"><br>
+                                        <label for="newPostalCode">New Postal Code:</label>
+                                        <input type="text" id="newPostalCode" name="newPostalCode" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="changePassword">Change Password:</label>
+                                        <input type="checkbox" id="changePassword" name="changePassword" value="true"
+                                            onchange="togglePasswordInputs()">
+                                        <br>
+                                        <label for="oldPassword">Old Password:</label>
+                                        <input type="password" id="oldPassword" name="oldPassword" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                     
+                                        <label for="newPassword">New Password:</label>
+                                        <input type="password" id="newPassword" name="newPassword" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="confirmPassword">Confirm New Password:</label>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block bg-info">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

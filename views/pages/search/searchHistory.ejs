@@ -1,0 +1,67 @@
+<%- include('../../partials/head.ejs') %>
+
+    <style>
+        .product-table th,
+        .product-table td {
+            font-size: 16px;
+            color: black;
+            text-align: center;
+        }
+
+        .product-table thead th {
+            background-color: bg-dark;
+            color: white;
+        }
+
+        .product-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .product-table td {
+            width: 250px;
+            /* Adjust the width as needed */
+            background-color: white;
+            /* Set the background color to white */
+        }
+    </style>
+
+    <div class="container my-container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-lg bg-info">
+                    <div class="card-body">
+
+                        <h4 class="card-title text-center my-4">SEARCH HISTORY</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered product-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">PRODUCT NAME</th>
+                                        <th scope="col">SEARCH DATE</th>
+                                    </tr>
+                                    <% for(let i=0; i < prevSearches.length; i++){ %>
+                                        <tr>
+                                            <td>
+                                                <a
+                                                    href="http://localhost:3000/product_categories/category/<%= prevSearches[i][4] %>/subcategory/<%= prevSearches[i][3] %>/product/<%= prevSearches[i][0] %>">
+                                                    <%= prevSearches[i][2] %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <%= prevSearches[i][1] %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
